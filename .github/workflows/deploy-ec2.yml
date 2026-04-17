@@ -19,19 +19,26 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            export APP_DIR="${{ secrets.APP_DIR }}"
-            export REPO_URL="https://github.com/Mango-UofA/skykoi.git"
-            export BACKEND_ENV=$(cat <<'EOF'
+            set -e
+            APP_DIR="${{ secrets.APP_DIR }}"
+            REPO_URL="https://github.com/Mango-UofA/skykoi.git"
+
+            if [ ! -d "$APP_DIR/.git" ]; then
+              rm -rf "$APP_DIR"
+              mkdir -p "$(dirname "$APP_DIR")"
+              git clone "$REPO_URL" "$APP_DIR"
+            fi
+
+            cd "$APP_DIR"
+            git fetch origin main
+            git reset --hard origin/main
+
+            cat > backend/.env <<'EOF'
             ${{ secrets.BACKEND_ENV }}
             EOF
-            )
-            export FRONTEND_ENV_PRODUCTION=$(cat <<'EOF'
+
+            cat > frontend/.env.production <<'EOF'
             ${{ secrets.FRONTEND_ENV_PRODUCTION }}
             EOF
-            )
-            bash -lc "cd ${APP_DIR} 2>/dev/null || true; if [ ! -f /var/www/skykoi/app/deploy/scripts/deploy.sh ]; then mkdir -p /var/www/skykoi; fi"
-            if [ ! -d /var/www/skykoi/app/.git ]; then
-              rm -rf /var/www/skykoi/app
-              git clone "$REPO_URL" /var/www/skykoi/app
-            fi
-            bash /var/www/skykoi/app/deploy/scripts/deploy.sh
+
+            bash deploy/scripts/deploy.sh
