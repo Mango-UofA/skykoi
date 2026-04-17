@@ -33,12 +33,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            cat > backend/.env <<'EOF'
-            ${{ secrets.BACKEND_ENV }}
-            EOF
-
-            cat > frontend/.env.production <<'EOF'
-            ${{ secrets.FRONTEND_ENV_PRODUCTION }}
-            EOF
+            printf '%s' '${{ secrets.BACKEND_ENV_B64 }}' | base64 -d > backend/.env
+            printf '%s' '${{ secrets.FRONTEND_ENV_PRODUCTION_B64 }}' | base64 -d > frontend/.env.production
 
             bash deploy/scripts/deploy.sh
