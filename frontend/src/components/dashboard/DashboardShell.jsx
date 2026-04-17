@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Cable, ChevronLeft, CreditCard, FlaskConical, Home, LogOut, Settings, Sparkles, Users } from "lucide-react";
 
@@ -43,6 +44,7 @@ export default function DashboardShell({ children }) {
   const user = getStoredUser();
   const navigate = useNavigate();
   const displayName = getDisplayName(user);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   function handleLogout() {
     localStorage.removeItem("skykoi_auth");
@@ -53,13 +55,40 @@ export default function DashboardShell({ children }) {
 
   return (
     <div className="dashboard-app">
-      <aside className="dashboard-sidebar">
+      <div className="dashboard-mobilebar">
+        <button
+          className="dashboard-sidebar__ghost"
+          type="button"
+          aria-label="Open navigation"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <ChevronLeft size={14} />
+        </button>
+        <Link className="dashboard-brand" to="/dashboard/overview">
+          <img alt="SkyKoi" className="dashboard-brand__logo" src="/skykoi-logo-white.png" />
+          <span>SKYKOI</span>
+        </Link>
+      </div>
+
+      <button
+        className={`dashboard-sidebar__scrim ${isSidebarOpen ? "is-open" : ""}`}
+        type="button"
+        aria-label="Close navigation"
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
+      <aside className={`dashboard-sidebar ${isSidebarOpen ? "is-open" : ""}`}>
         <div className="dashboard-sidebar__brand">
           <Link className="dashboard-brand" to="/dashboard/overview">
             <img alt="SkyKoi" className="dashboard-brand__logo" src="/skykoi-logo-white.png" />
             <span>SKYKOI</span>
           </Link>
-          <button className="dashboard-sidebar__ghost" type="button" aria-label="Collapse sidebar">
+          <button
+            className="dashboard-sidebar__ghost"
+            type="button"
+            aria-label="Collapse sidebar"
+            onClick={() => setIsSidebarOpen(false)}
+          >
             <ChevronLeft size={14} />
           </button>
         </div>
@@ -77,7 +106,12 @@ export default function DashboardShell({ children }) {
             const Icon = item.icon;
 
             return (
-              <NavLink key={item.label} to={item.to} className={({ isActive }) => accentClass(item.accent, isActive)}>
+              <NavLink
+                key={item.label}
+                to={item.to}
+                className={({ isActive }) => accentClass(item.accent, isActive)}
+                onClick={() => setIsSidebarOpen(false)}
+              >
                 <Icon size={18} />
                 <span>{item.label}</span>
               </NavLink>

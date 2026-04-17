@@ -548,6 +548,19 @@ iframe {
   .auth-card {
     max-width: 100%;
   }
+
+  .auth-card__title {
+    font-size: clamp(1.85rem, 9vw, 2.25rem);
+  }
+
+  .auth-card__subtitle,
+  .auth-experience__text {
+    max-width: none;
+  }
+
+  .auth-experience__option {
+    padding: 0.85rem 0.9rem;
+  }
 }
 
 .dashboard-app {
@@ -555,6 +568,11 @@ iframe {
   display: block;
   background: #000;
   color: #fff;
+}
+
+.dashboard-mobilebar,
+.dashboard-sidebar__scrim {
+  display: none;
 }
 
 .dashboard-sidebar {
@@ -1333,13 +1351,13 @@ iframe {
 }
 
 .dashboard-chat__messages {
-  max-width: 840px;
+  max-width: 100%;
   margin: 0 auto;
   padding-bottom: 6rem;
 }
 
 .dashboard-chat__workbench {
-  max-width: 840px;
+  max-width: 100%;
   margin: 0 auto 1.2rem;
 }
 
@@ -2009,6 +2027,7 @@ iframe {
   width: 100%;
   display: grid;
   gap: 0.45rem;
+  max-width: min(100%, 1100px);
 }
 
 .skykoi-message--user {
@@ -2132,6 +2151,8 @@ iframe {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
   backdrop-filter: blur(10px);
 }
 
@@ -2556,8 +2577,47 @@ iframe {
 }
 
 @media (max-width: 900px) {
+  .dashboard-mobilebar {
+    position: sticky;
+    top: 0;
+    z-index: 34;
+    height: 56px;
+    padding: 0 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(8, 8, 10, 0.96), rgba(8, 8, 10, 0.88));
+    backdrop-filter: blur(14px);
+  }
+
+  .dashboard-mobilebar .dashboard-sidebar__ghost {
+    transform: rotate(180deg);
+  }
+
+  .dashboard-sidebar__scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 31;
+    border: 0;
+    background: rgba(0, 0, 0, 0.56);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .dashboard-sidebar__scrim.is-open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .skykoi-chat__header {
     padding: 0 0.9rem;
+    min-height: auto;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+    flex-wrap: wrap;
   }
 
   .skykoi-chat__inner,
@@ -2566,12 +2626,32 @@ iframe {
     max-width: none;
   }
 
+  .skykoi-chat__inner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .skykoi-chat__statusbar,
+  .skykoi-composer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .skykoi-koi-chip__copy strong {
     font-size: 0.88rem;
   }
 
   .skykoi-composer__prompt {
     display: none;
+  }
+
+  .skykoi-message {
+    max-width: 100%;
+  }
+
+  .skykoi-message__meta {
+    gap: 0.45rem;
+    flex-wrap: wrap;
   }
 }
 
@@ -2983,15 +3063,28 @@ iframe {
   }
 
   .dashboard-sidebar {
-    display: none;
+    display: flex;
+    z-index: 32;
+    transform: translateX(-100%);
+    transition: transform 180ms ease;
+  }
+
+  .dashboard-sidebar.is-open {
+    transform: translateX(0);
   }
 
   .dashboard-main {
     margin-left: 0;
+    width: 100%;
+    min-height: calc(100vh - 56px);
   }
 
   .dashboard-page__title--settings {
     font-size: 2.2rem;
+  }
+
+  .dashboard-page {
+    padding: 1.1rem 1rem 1.6rem;
   }
 }
 
@@ -3021,6 +3114,36 @@ iframe {
   .dashboard-resource strong,
   .dashboard-resource small {
     grid-column: 2;
+  }
+
+  .dashboard-chat__topbar,
+  .dashboard-chat__identity,
+  .dashboard-chat__actions,
+  .dashboard-team__meta,
+  .dashboard-billing__current-name {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-chat__stream {
+    padding: 0.8rem 0.8rem 0;
+  }
+
+  .dashboard-chat__hero {
+    min-height: 42vh;
+  }
+
+  .dashboard-terminal-card__body {
+    padding: 20px 16px 16px;
+    min-height: 180px;
+  }
+
+  .dashboard-terminal-card__body pre {
+    font-size: 0.98rem;
+  }
+
+  .dashboard-preview__panel {
+    width: min(100vw - 1rem, 1100px);
+    max-height: calc(100vh - 1rem);
   }
 }
 
