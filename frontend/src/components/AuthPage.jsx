@@ -80,7 +80,7 @@ export default function AuthPage({ mode }) {
 
       <div className={`auth-card ${isSignup ? "auth-card--signup" : "auth-card--login"}`}>
         <div className="auth-card__logo-wrap">
-          <img alt="SkyKoi" className="auth-card__logo" src="/skykoi-logo-white.jpg" />
+          <img alt="SkyKoi" className="auth-card__logo" src="/skykoi-logo-white.png" />
         </div>
 
         <h1 className="auth-card__title">{copy.title}</h1>

@@ -56,7 +56,7 @@ export default function DashboardShell({ children }) {
       <aside className="dashboard-sidebar">
         <div className="dashboard-sidebar__brand">
           <Link className="dashboard-brand" to="/dashboard/overview">
-            <img alt="SkyKoi" className="dashboard-brand__logo" src="/skykoi-logo-white.jpg" />
+            <img alt="SkyKoi" className="dashboard-brand__logo" src="/skykoi-logo-white.png" />
             <span>SKYKOI</span>
           </Link>
           <button className="dashboard-sidebar__ghost" type="button" aria-label="Collapse sidebar">
